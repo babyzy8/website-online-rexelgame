@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rexel Game Cianjur - Service, Game PS4 & Order</title>
+<meta name="description" content="Daftar harga service stik, list game PS4, dan order online Rexel Game Joglo, Cianjur.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  --bg:#07070b; --surface:#101018; --surface2:#171722; --line:#2b2b3d;
+  --pink:#ff2e7e; --pink-d:#d41b63; --green:#b6ff2b; --blue:#4a8dff;
+  --text:#f3f3f8; --muted:#a0a0b8; --danger:#ff6b6b;
+  --head:"Chakra Petch","Segoe UI",system-ui,sans-serif;
+  --body:"DM Sans","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.5 var(--body);padding-bottom:90px;
+  background-image:radial-gradient(900px 380px at 50% -120px,rgba(255,46,126,.22),transparent 70%)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 10px}
+.brand{display:flex;flex-direction:column;line-height:1}
+.logo{font:700 28px/1 var(--head);letter-spacing:.06em}
+.logo i{font-style:normal;color:var(--pink)}
+.brand small{color:var(--muted);margin-top:6px;font-size:13px}
+.contact{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.contact a{color:var(--text);text-decoration:none;font-size:14px;border:1px solid var(--line);padding:7px 12px;border-radius:999px;background:var(--surface)}
+.contact a:hover{border-color:var(--pink)}
+.tagline{margin:6px 0 18px;color:var(--muted);max-width:52ch}
+
+/* tabs */
+.tabs{position:sticky;top:0;z-index:20;display:flex;gap:6px;padding:10px 0;background:linear-gradient(var(--bg) 80%,transparent)}
+.tab{flex:1;padding:12px 10px;border:1px solid var(--line);background:var(--surface);border-radius:12px;font:600 16px var(--head);letter-spacing:.02em;display:flex;gap:8px;align-items:center;justify-content:center}
+.tab[aria-selected="true"]{background:var(--pink);border-color:var(--pink);color:#fff}
+.tab .dot{background:var(--green);color:#000;border-radius:999px;font-size:12px;padding:1px 7px;display:none}
+.tab .dot.on{display:inline-block}
+section.view{display:none;padding:18px 0 10px}
+section.view.on{display:block}
+h2{font:700 24px/1.2 var(--head);margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 18px}
+
+/* generic */
+.price{color:var(--green);font:600 17px var(--head);white-space:nowrap}
+.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:700;background:var(--pink);color:#fff}
+.btn:hover{background:var(--pink-d)}
+.btn.ghost{background:transparent;border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--pink);background:transparent}
+.btn.big{width:100%;padding:14px;font-size:17px}
+.btn.wa{background:#1fb855}.btn.wa:hover{background:#18963f}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--pink);border-radius:10px;overflow:hidden}
+.stepper button{background:transparent;border:0;width:34px;height:34px;font-size:18px;font-weight:700}
+.stepper button:hover{background:rgba(255,46,126,.2)}
+.stepper b{min-width:28px;text-align:center}
+.note{border:1px solid #6b5b00;background:rgba(255,214,0,.08);color:#ffe27a;padding:10px 14px;border-radius:10px;font-size:14px;margin-top:14px}
+
+/* service */
+.svc-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.svc header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:linear-gradient(90deg,rgba(74,141,255,.28),transparent)}
+.svc h3{margin:0;font:700 22px var(--head)}
+.svc ul{list-style:none;margin:0;padding:4px 16px 12px}
+.svc li{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
+.svc li:last-child{border-bottom:0}
+
+/* games */
+.tiers{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:16px}
+.tier{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.tier span{display:block;color:var(--muted);font-size:13px}
+.tier b{font:700 20px var(--head);color:var(--green)}
+.promo{border-color:var(--pink)}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.search{flex:1 1 240px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px 14px;color:var(--text);font:inherit}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--green);color:#000;border-color:var(--green);font-weight:700}
+.count{color:var(--muted);font-size:14px;margin:0 0 10px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.cover{position:relative;aspect-ratio:3/4;background:#000;overflow:hidden}
+.cover img,.cover .ph{position:absolute;inset:0;width:100%;height:100%}
+.cover img{object-fit:cover}
+.ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;text-align:center}
+.ph b{font:700 40px var(--head);letter-spacing:.04em;opacity:.9}
+.ph span{font-size:12px;opacity:.75}
+.badge{position:absolute;left:8px;top:8px;z-index:2;background:rgba(0,0,0,.75);border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-size:12px}
+.badge.new{background:var(--pink);border-color:var(--pink)}
+.card .info{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card h4{margin:0;font:600 15px/1.3 var(--head);min-height:2.6em}
+.card .meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
+.card .act{margin-top:auto}
+.card .act .btn{width:100%}
+.card .act .stepper{width:100%;justify-content:space-between}
+.more{display:block;margin:18px auto 0}
+.empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+
+/* order */
+.order-grid{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:900px){.order-grid{grid-template-columns:1.15fr 1fr;align-items:start}.cart-panel{position:sticky;top:76px}}
+.cat{margin-bottom:18px}
+.cat h3{margin:0 0 8px;font:700 18px var(--head)}
+.rows{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:2px 14px}
+.row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border-bottom:0}
+.row small{display:block;color:var(--muted)}
+.req{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:10px}
+label{display:block;font-size:14px;color:var(--muted);margin-bottom:4px}
+input[type=text],input[type=tel],select,textarea{width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:11px 12px;color:var(--text);font:inherit}
+textarea{resize:vertical;min-height:64px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cart-panel{background:var(--surface);border:1px solid var(--pink);border-radius:16px;padding:16px}
+.cart-panel h3{margin:0 0 10px;font:700 20px var(--head)}
+.line{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.line .nm{font-weight:500}
+.line small{color:var(--muted);grid-column:1/-1}
+.line .ctl{display:flex;align-items:center;gap:8px}
+.rm{background:none;border:0;color:var(--danger);font-size:13px;padding:4px}
+.tot{display:flex;justify-content:space-between;padding:6px 0}
+.tot.grand{font:700 22px var(--head);border-top:1px solid var(--line);margin-top:6px;padding-top:12px}
+.tot.disc{color:var(--green)}
+.pay{display:grid;gap:8px;margin:12px 0}
+.pay label{display:flex;gap:10px;align-items:flex-start;color:var(--text);margin:0;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;background:var(--surface2)}
+.pay input{margin-top:4px;accent-color:var(--pink)}
+.pay label:has(input:checked){border-color:var(--pink)}
+.pay small{display:block;color:var(--muted)}
+.err{color:var(--danger);font-size:14px;margin:8px 0 0;min-height:1.2em}
+
+/* floating bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(7,7,11,.92);backdrop-filter:blur(8px);border-top:1px solid var(--line);display:none}
+.bar.on{display:block}
+.bar .in{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.bar b{font:700 18px var(--head);color:var(--green)}
+
+/* dialog */
+dialog{border:1px solid var(--pink);border-radius:18px;background:var(--surface);color:var(--text);padding:0;width:min(440px,94vw);max-height:92vh}
+dialog::backdrop{background:rgba(0,0,0,.75)}
+.dlg{padding:20px;display:grid;gap:12px}
+.dlg h3{margin:0;font:700 22px var(--head)}
+.qrbox{background:#fff;border-radius:14px;padding:14px;display:flex;justify-content:center}
+.qrbox canvas,.qrbox img{max-width:100%;height:auto}
+.amount{text-align:center}
+.amount b{display:block;font:700 30px var(--head);color:var(--green)}
+.amount span{color:var(--muted);font-size:14px}
+.steps{margin:0;padding-left:20px;color:var(--muted);font-size:14px}
+.code{font:600 14px var(--head);color:var(--muted);text-align:center}
+
+@media(max-width:560px){
+  .logo{font-size:22px}
+  .tab{font-size:14px;padding:10px 6px}
+  .two{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <div class="logo">REXEL <i>GAME</i></div>
+      <small>Joglo, Cianjur</small>
+    </div>
+    <div class="contact">
+      <a href="https://wa.me/6285172447090" target="_blank" rel="noopener">WhatsApp 0851-7244-7090</a>
+      <a href="https://instagram.com/RexelGame_" target="_blank" rel="noopener">@RexelGame_</a>
+    </div>
+  </div>
+  <p class="tagline">Service stik, isi game PS2 / PS3 / PS4, stik dan aksesoris. Pilih yang kamu mau, pesan, lalu bayar dengan QRIS atau di toko.</p>
+
+  <nav class="tabs" role="tablist" aria-label="Menu">
+    <button class="tab" role="tab" data-tab="service" aria-selected="true">Service</button>
+    <button class="tab" role="tab" data-tab="games" aria-selected="false">List Game PS4</button>
+    <button class="tab" role="tab" data-tab="order" aria-selected="false">Order <span class="dot" id="tabDot">0</span></button>
+  </nav>
+
+  <!-- SERVICE -->
+  <section class="view on" id="v-service">
+    <h2>Service Stik</h2>
+    <p class="sub">PS2, PS3, dan PS4. Tap Tambah untuk memasukkan ke pesanan.</p>
+    <div class="svc-grid" id="svcGrid"></div>
+    <div class="note"><b>Catatan:</b> Ganti PCB dilakukan apabila ada tombol (selain analog) yang error.</div>
+  </section>
+
+  <!-- GAMES -->
+  <section class="view" id="v-games">
+    <h2>List Game PS4</h2>
+    <p class="sub">Harga mengikuti ukuran game. Cari nama game, lalu tap Pesan.</p>
+    <div class="tiers" id="tiers"></div>
+    <div class="tools">
+      <input class="search" id="q" type="search" placeholder="Cari nama game..." aria-label="Cari game">
+      <div class="chips" id="chips"></div>
+    </div>
+    <p class="count" id="gCount"></p>
+    <div class="grid" id="gGrid"></div>
+    <button class="btn ghost more" id="more" hidden>Tampilkan lebih banyak</button>
+  </section>
+
+  <!-- ORDER -->
+  <section class="view" id="v-order">
+    <h2>Order</h2>
+    <p class="sub">Pilih dari katalog, cek pesanan, lalu bayar.</p>
+    <div class="order-grid">
+      <div id="catalog"></div>
+
+      <aside class="cart-panel" id="cartPanel">
+        <h3>Pesanan kamu</h3>
+        <div id="cartLines"></div>
+        <div id="cartTotals"></div>
+
+        <div style="margin-top:12px">
+          <label for="cName">Nama</label>
+          <input type="text" id="cName" autocomplete="name" placeholder="Nama kamu">
+        </div>
+        <div style="margin-top:10px">
+          <label for="cWa">Nomor WhatsApp (opsional)</label>
+          <input type="tel" id="cWa" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx">
+        </div>
+        <div style="margin-top:10px">
+          <label for="cNote">Catatan (opsional)</label>
+          <textarea id="cNote" placeholder="Contoh: stik PS3 hitam sudah bawa, hanya ganti analog"></textarea>
+        </div>
+
+        <div class="pay" role="radiogroup" aria-label="Metode pembayaran">
+          <label><input type="radio" name="pay" value="qris" checked>
+            <span><b>QRIS</b><small>Bayar langsung dari e-wallet atau m-banking. Nominal terisi otomatis.</small></span></label>
+          <label><input type="radio" name="pay" value="cash">
+            <span><b>Bayar di toko</b><small>Cash saat ambil barang atau stik selesai diservice.</small></span></label>
+        </div>
+        <button class="btn big" id="checkout">Buat pesanan</button>
+        <p class="err" id="err" role="alert"></p>
+      </aside>
+    </div>
+  </section>
+</div>
+
+<div class="bar" id="bar"><div class="in">
+  <div><span id="barQty">0 item</span><br><b id="barTotal">Rp0</b></div>
+  <button class="btn" id="barGo">Lihat pesanan</button>
+</div></div>
+
+<dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
+
+<script src="games.js"></script>
+<script>
+/* ====================== PENGATURAN TOKO ====================== */
+const WA_NUMBER = "6285172447090";           // nomor WhatsApp admin (format 62...)
+const MERCHANT = "Rexel Games Toko Elektronik";
+// Isi QRIS statis milik toko (hasil baca dari QRIS yang dikirim)
+const QRIS_STATIC = "00020101021126690021ID.CO.BANKMANDIRI.WWW01189360000802025234230211720252342390303UMI51440014ID.CO.QRIS.WWW0215ID10264924100830303UMI5204573253033605802ID5925Rexel Games Toko Elektron6013Cianjur (Kab)61054321262070703A016304C8C9";
+const PROMO = { tier: "sedang", per: 4, price: 100000 }; // 4 game sedang = 100K
+
+const TIERS = {
+  kecil:   { label: "Kecil",   range: "1-5 GB",    ps3: 10000, ps4: 20000 },
+  sedang:  { label: "Sedang",  range: "5-50 GB",   ps3: 15000, ps4: 30000 },
+  besar:   { label: "Besar",   range: "50-200 GB", ps3: 20000, ps4: 50000 },
+  terbaru: { label: "Bola Terupdate", range: "versi terbaru", ps3: 35000, ps4: 80000 },
+  ps2:     { label: "PS2 di PS4", range: "game PS2 yang bisa dimainkan di PS4", ps4: 20000, only: "ps4" }
+};
+const SERVICES = [
+  { con: "PS2", items: [["karet","Ganti karet (1 set)",10000],["analog","Ganti analog",15000],["pcb","Ganti PCB",15000]] },
+  { con: "PS3", items: [["karet","Ganti karet (1 set)",15000],["topi","Ganti topi analog",5000],["analog","Ganti analog",20000],["pcb","Ganti PCB",20000],["baterai","Ganti baterai",40000]] },
+  { con: "PS4", items: [["karet","Ganti karet (1 set)",20000],["topi","Ganti topi analog",10000],["analog","Ganti analog",50000],["pcb","Ganti PCB",50000],["baterai","Ganti baterai",80000]] }
+];
+const PRODUCTS = [
+  { cat: "Stik", items: [["stik-ps2-hitam","Stik PS2 hitam",40000],["stik-ps2-warna","Stik PS2 warna",80000],["stik-ps3-hitam","Stik PS3 hitam",70000],["stik-ps3-warna","Stik PS3 warna",80000],["stik-ps3-motif","Stik PS3 motif",100000],["stik-ps4-hitam","Stik PS4 hitam",150000],["stik-ps4-warna","Stik PS4 warna",170000],["stik-ps4-motif","Stik PS4 motif",200000]] },
+  { cat: "Aksesoris", items: [["hdmi","HDMI",25000],["kabel-av","Kabel AV",20000],["kabel-ac","Kabel AC",20000],["kabel-ac-ori","Kabel AC ori",30000],["casan-ps3","Casan PS3 ori",25000],["conv-hdmi","Converter HDMI",50000],["conv-stik","Converter stik",40000],["mem-8","Memori 8MB",50000],["mem-16","Memori 16MB",70000],["casan-ps4","Casan PS4 ori",25000]] }
+];
+
+/* ====================== UTIL ====================== */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const rp = n => "Rp" + Math.round(n).toLocaleString("id-ID");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+/* ====================== DATA ITEM & KERANJANG ====================== */
+const ITEMS = {};            // id -> definisi item
+let cart = {};               // id -> {id,name,price,qty,note,tier}
+try { cart = JSON.parse(localStorage.getItem("rexel_cart") || "{}") || {}; } catch(e) { cart = {}; }
+const save = () => { try { localStorage.setItem("rexel_cart", JSON.stringify(cart)); } catch(e) {} };
+
+SERVICES.forEach(s => s.items.forEach(([k,n,p]) => {
+  ITEMS[`svc-${s.con.toLowerCase()}-${k}`] = { id:`svc-${s.con.toLowerCase()}-${k}`, name:`Service Stik ${s.con} - ${n}`, price:p };
+}));
+PRODUCTS.forEach(c => c.items.forEach(([id,n,p]) => { ITEMS[id] = { id, name:n, price:p }; }));
+
+function tierOf(g){
+  if (g.t && TIERS[g.t]) return g.t;   // tingkat harga diisi langsung di games.js
+  if (g.new) return "terbaru";
+  if (g.gb <= 5) return "kecil";
+  if (g.gb <= 50) return "sedang";
+  return "besar";
+}
+const GAME_LIST = (typeof GAMES !== "undefined" ? GAMES : []).map(g => {
+  const t = tierOf(g), id = "g4-" + slug(g.n);
+  ITEMS[id] = { id, name: (t === "ps2" ? "Game PS2 di PS4: " : "Game PS4: ") + g.n, price: TIERS[t].ps4, tier: t, ps4: true };
+  return { ...g, id, tier: t, price: TIERS[t].ps4 };
+});
+
+function ctl(id){
+  const q = cart[id] ? cart[id].qty : 0;
+  if (!q) return `<button class="btn" data-add="${id}">Tambah</button>`;
+  return `<span class="stepper"><button data-dec="${id}" aria-label="Kurangi">-</button><b>${q}</b><button data-inc="${id}" aria-label="Tambah">+</button></span>`;
+}
+function addItem(id, n=1){
+  const it = ITEMS[id]; if (!it && !cart[id]) return;
+  if (!cart[id]) cart[id] = { ...it, qty: 0, note: "" };
+  cart[id].qty += n;
+  if (cart[id].qty <= 0) delete cart[id];
+  save(); refresh();
+}
+
+function totals(){
+  let sub = 0, mid = 0;
+  Object.values(cart).forEach(i => { sub += i.price * i.qty; if (i.ps4 && i.tier === PROMO.tier) mid += i.qty; });
+  const groups = Math.floor(mid / PROMO.per);
+  const disc = groups * (PROMO.per * TIERS[PROMO.tier].ps4 - PROMO.price);
+  return { sub, groups, disc, total: sub - disc, qty: Object.values(cart).reduce((a,i)=>a+i.qty,0) };
+}
+
+/* ====================== RENDER: SERVICE ====================== */
+function renderService(){
+  $("#svcGrid").innerHTML = SERVICES.map(s => `
+    <article class="svc"><header><h3>Service Stik ${s.con}</h3></header><ul>
+    ${s.items.map(([k,n,p]) => { const id = `svc-${s.con.toLowerCase()}-${k}`;
+      return `<li><span>${esc(n)}</span><span class="price">${rp(p)}</span><span data-ctl="${id}">${ctl(id)}</span></li>`; }).join("")}
+    </ul></article>`).join("");
+}
+
+/* ====================== RENDER: GAME PS4 ====================== */
+let filter = "semua", query = "", limit = 60;
+function renderTiers(){
+  $("#tiers").innerHTML = Object.entries(TIERS).map(([k,t]) =>
+    `<div class="tier"><span>${t.label} (${t.range})</span><b>${rp(t.ps4)}</b></div>`).join("") +
+    `<div class="tier promo"><span>Promo ${PROMO.per} game ukuran sedang</span><b>${rp(PROMO.price)}</b></div>`;
+  const opts = [["semua","Semua"],["kecil","Kecil"],["sedang","Sedang"],["besar","Besar"],["terbaru","Terbaru"],["ps2","PS2 di PS4"]];
+  $("#chips").innerHTML = opts.map(([k,l]) => `<button class="chip" data-chip="${k}" aria-pressed="${k===filter}">${l}</button>`).join("");
+}
+function placeholder(name){
+  let h = 0; for (const c of name) h = (h * 31 + c.charCodeAt(0)) % 360;
+  const ini = name.replace(/[^A-Za-z0-9 ]/g,"").split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join("") || "G";
+  return `<div class="ph" style="background:linear-gradient(160deg,hsl(${h} 65% 30%),hsl(${(h+50)%360} 70% 12%))"><b>${esc(ini)}</b><span>${esc(name)}</span></div>`;
+}
+function renderGames(){
+  const list = GAME_LIST.filter(g => (filter === "semua" || g.tier === filter) && g.n.toLowerCase().includes(query));
+  $("#gCount").textContent = `${list.length} game`;
+  const shown = list.slice(0, limit);
+  $("#gGrid").innerHTML = shown.length ? shown.map(g => {
+    const src = g.img || `${slug(g.n)}.jpg`;
+    return `<article class="card">
+      <div class="cover">${placeholder(g.n)}<img loading="lazy" alt="Cover ${esc(g.n)}" src="${esc(src)}" onerror="this.style.display='none'">
+        <span class="badge ${g.tier==="terbaru"?"new":""}">${TIERS[g.tier].label}</span></div>
+      <div class="info"><h4>${esc(g.n)}</h4>
+        <div class="meta"><span>${g.gb ? g.gb + " GB" : TIERS[g.tier].range}</span><span class="price">${rp(g.price)}</span></div>
+        <div class="act" data-ctl="${g.id}">${ctl(g.id)}</div></div></article>`;
+  }).join("") : `<div class="empty" style="grid-column:1/-1">Game tidak ditemukan. Coba kata kunci lain, atau request lewat menu Order.</div>`;
+  $("#more").hidden = list.length <= limit;
+}
+
+/* ====================== RENDER: ORDER ====================== */
+function renderCatalog(){
+  const cats = PRODUCTS.map(c => `<div class="cat"><h3>${c.cat}</h3><div class="rows">
+    ${c.items.map(([id,n,p]) => `<div class="row"><span>${esc(n)}</span><span class="price">${rp(p)}</span><span data-ctl="${id}">${ctl(id)}</span></div>`).join("")}
+  </div></div>`).join("");
+  const svc = `<div class="cat"><h3>Service Stik</h3><div class="rows">
+    ${SERVICES.map(s => s.items.map(([k,n,p]) => { const id = `svc-${s.con.toLowerCase()}-${k}`;
+      return `<div class="row"><span>${s.con}: ${esc(n)}</span><span class="price">${rp(p)}</span><span data-ctl="${id}">${ctl(id)}</span></div>`; }).join("")).join("")}
+  </div></div>`;
+  const req = `<div class="cat"><h3>Isi game atau request game</h3>
+    <div class="req">
+      <div class="two">
+        <div><label for="rPlat">Konsol</label><select id="rPlat"><option value="ps2">PS2</option><option value="ps3">PS3</option><option value="ps4">PS4</option></select></div>
+        <div><label for="rTier">Ukuran / jenis</label><select id="rTier"></select></div>
+      </div>
+      <div><label for="rName">Nama game</label><input type="text" id="rName" placeholder="Contoh: Naruto Ultimate Ninja 5"></div>
+      <button class="btn" id="rAdd">Tambah ke pesanan</button>
+      <small style="color:var(--muted)">PS4: game yang ada di menu List Game PS4 bisa dipesan langsung dari sana. PS2 khusus hardisk eksternal atau flashdisk yang penuh wajib diformat.</small>
+    </div></div>`;
+  $("#catalog").innerHTML = req + cats + svc;
+  fillTier();
+}
+function fillTier(){
+  const p = $("#rPlat").value, sel = $("#rTier");
+  if (p === "ps2") sel.innerHTML = `<option value="semua">Semua game - ${rp(3000)}/game</option>`;
+  else sel.innerHTML = Object.entries(TIERS).filter(([k,t]) => !t.only || t.only === p).map(([k,t]) => `<option value="${k}">${t.label} (${t.range}) - ${rp(t[p])}</option>`).join("");
+}
+function addRequest(){
+  const p = $("#rPlat").value, t = $("#rTier").value, name = $("#rName").value.trim();
+  if (!name) { $("#rName").focus(); return; }
+  const price = p === "ps2" ? 3000 : TIERS[t][p];
+  const id = "req-" + Date.now();
+  const label = p === "ps2" ? "" : ` (${TIERS[t].label})`;
+  cart[id] = { id, name: `Game ${p.toUpperCase()}: ${name}${label}`, price, qty: 1, note: "",
+    tier: t, ps4: p === "ps4" };
+  $("#rName").value = ""; save(); refresh();
+}
+
+function renderCart(){
+  const items = Object.values(cart), T = totals();
+  $("#cartLines").innerHTML = items.length ? items.map(i => `
+    <div class="line"><span class="nm">${esc(i.name)}</span><span class="price">${rp(i.price*i.qty)}</span>
+      <small>${rp(i.price)} per item</small>
+      <span class="ctl"><span class="stepper"><button data-dec="${i.id}" aria-label="Kurangi">-</button><b>${i.qty}</b><button data-inc="${i.id}" aria-label="Tambah">+</button></span>
+      <button class="rm" data-del="${i.id}">Hapus</button></span></div>`).join("")
+    : `<div class="empty">Belum ada pesanan. Pilih dari katalog, menu Service, atau List Game PS4.</div>`;
+  $("#cartTotals").innerHTML = items.length ? `
+    <div class="tot"><span>Subtotal</span><span>${rp(T.sub)}</span></div>
+    ${T.disc ? `<div class="tot disc"><span>Promo ${T.groups}x (${PROMO.per} game sedang = ${rp(PROMO.price)})</span><span>-${rp(T.disc)}</span></div>` : ""}
+    <div class="tot grand"><span>Total</span><span>${rp(T.total)}</span></div>` : "";
+}
+
+function refresh(){
+  $$("[data-ctl]").forEach(el => { el.innerHTML = ctl(el.dataset.ctl); });
+  renderCart();
+  const T = totals();
+  $("#tabDot").textContent = T.qty; $("#tabDot").classList.toggle("on", T.qty > 0);
+  $("#barQty").textContent = T.qty + " item"; $("#barTotal").textContent = rp(T.total);
+  $("#bar").classList.toggle("on", T.qty > 0 && currentTab() !== "order");
+}
+
+/* ====================== TAB ====================== */
+const currentTab = () => ($(".tab[aria-selected=true]") || {dataset:{}}).dataset.tab;
+function show(tab){
+  $$(".tab").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === tab));
+  $$("section.view").forEach(s => s.classList.toggle("on", s.id === "v-" + tab));
+  if (location.hash !== "#" + tab) history.replaceState(null, "", "#" + tab);
+  refresh(); window.scrollTo({ top: 0 });
+}
+
+/* ====================== QRIS DINAMIS ====================== */
+function crc16(s){
+  let c = 0xFFFF;
+  for (let i = 0; i < s.length; i++){
+    c ^= s.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) c = (c & 0x8000) ? ((c << 1) ^ 0x1021) & 0xFFFF : (c << 1) & 0xFFFF;
+  }
+  return c.toString(16).toUpperCase().padStart(4, "0");
+}
+function qrisDynamic(amount){
+  let body = QRIS_STATIC.slice(0, -8).replace("010211", "010212"); // statis -> dinamis, buang CRC lama
+  const a = String(Math.round(amount));
+  const tag54 = "54" + String(a.length).padStart(2, "0") + a;
+  const i = body.indexOf("5802ID");
+  body = body.slice(0, i) + tag54 + body.slice(i) + "6304";
+  return body + crc16(body);
+}
+
+/* ====================== CHECKOUT ====================== */
+function orderCode(){
+  const d = new Date(), p = n => String(n).padStart(2, "0");
+  return `RX-${String(d.getFullYear()).slice(2)}${p(d.getMonth()+1)}${p(d.getDate())}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
+}
+function buildMessage(o){
+  const lines = o.items.map(i => `- ${i.name} x${i.qty} = ${rp(i.price*i.qty)}`).join("\n");
+  return [
+    `*PESANAN REXEL GAME*`, `Kode: ${o.code}`, `Nama: ${o.name}`, o.wa ? `WhatsApp: ${o.wa}` : "",
+    `Pembayaran: ${o.pay === "qris" ? "QRIS (bukti bayar saya lampirkan di chat ini)" : "Bayar di toko (cash)"}`,
+    ``, lines, o.disc ? `Promo: -${rp(o.disc)}` : "", `*Total: ${rp(o.total)}*`,
+    o.note ? `\nCatatan: ${o.note}` : ""
+  ].filter(l => l !== "").join("\n");
+}
+function openWA(o){
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(buildMessage(o))}`, "_blank", "noopener");
+}
+function checkout(){
+  const err = $("#err"); err.textContent = "";
+  const items = Object.values(cart);
+  if (!items.length) { err.textContent = "Pesanan masih kosong. Tambahkan item dulu."; return; }
+  const name = $("#cName").value.trim();
+  if (!name) { err.textContent = "Isi nama kamu dulu."; $("#cName").focus(); return; }
+  const T = totals();
+  const o = { code: orderCode(), name, wa: $("#cWa").value.trim(), note: $("#cNote").value.trim(),
+    pay: $("input[name=pay]:checked").value, items: items.map(i => ({ name:i.name, price:i.price, qty:i.qty })),
+    total: T.total, disc: T.disc };
+  showPayment(o);
+}
+function showPayment(o){
+  const body = $("#dlgBody");
+  const isQ = o.pay === "qris";
+  body.innerHTML = `
+    <h3>${isQ ? "Bayar dengan QRIS" : "Pesanan siap dikirim"}</h3>
+    <div class="code">Kode pesanan ${o.code}</div>
+    <div class="amount"><b>${rp(o.total)}</b><span>${isQ ? "Nominal sudah terisi di QRIS" : "Bayar cash di toko"}</span></div>
+    ${isQ ? `<div class="qrbox" id="qrbox"></div>
+      <ol class="steps"><li>Buka e-wallet atau m-banking, pilih Scan QRIS.</li><li>Scan kode di atas dan cek nominal ${rp(o.total)}.</li><li>Setelah berhasil, tekan tombol hijau dan kirim bukti bayar ke WhatsApp admin.</li></ol>
+      <button class="btn ghost" id="dlQr">Simpan gambar QRIS</button>` :
+      `<ol class="steps"><li>Tekan tombol hijau untuk mengirim pesanan ke WhatsApp admin.</li><li>Datang ke toko dan sebutkan kode pesanan.</li></ol>`}
+    <button class="btn wa big" id="sendWa">${isQ ? "Saya sudah bayar, kirim bukti ke WhatsApp" : "Kirim pesanan ke WhatsApp"}</button>
+    <button class="btn ghost" id="dlgDone">Selesai dan kosongkan pesanan</button>
+    <button class="btn ghost" id="dlgClose">Kembali ke pesanan</button>
+    ${isQ ? `<small style="color:var(--muted)">Pesanan diproses setelah admin menerima bukti bayar dan memastikan dana masuk.</small>` : ""}`;
+  $("#sendWa").onclick = () => openWA(o);
+  $("#dlgClose").onclick = () => $("#dlg").close();
+  $("#dlgDone").onclick = () => { cart = {}; save(); $("#dlg").close(); refresh(); renderCatalog(); };
+  $("#dlg").showModal();
+  if (isQ) drawQR(qrisDynamic(o.total), o);
+}
+function drawQR(text, o){
+  const box = $("#qrbox");
+  if (typeof QRCode === "undefined") { // fallback bila library QR gagal dimuat (offline)
+    box.innerHTML = `<img src="qris.png" alt="QRIS Rexel Games" style="max-width:100%">`;
+    $("#dlQr").onclick = () => { const a = document.createElement("a"); a.href = "qris.png"; a.download = "QRIS-RexelGame.png"; a.click(); };
+    box.insertAdjacentHTML("afterend", `<div class="note">QRIS dinamis tidak bisa dibuat (koneksi internet). Scan QRIS ini lalu ketik nominal ${rp(o.total)} secara manual.</div>`);
+    return;
+  }
+  new QRCode(box, { text, width: 260, height: 260, correctLevel: QRCode.CorrectLevel.M });
+  $("#dlQr").onclick = () => {
+    const src = $("canvas", box), pad = 30, c = document.createElement("canvas");
+    c.width = c.height = src.width + pad * 2;
+    const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height);
+    x.drawImage(src, pad, pad);
+    const a = document.createElement("a"); a.href = c.toDataURL("image/png");
+    a.download = `QRIS-${o.code}.png`; a.click();
+  };
+}
+
+/* ====================== EVENT ====================== */
+document.addEventListener("click", e => {
+  const t = e.target.closest("button"); if (!t) return;
+  const d = t.dataset;
+  if (d.tab) return show(d.tab);
+  if (d.add) return addItem(d.add, 1);
+  if (d.inc) return addItem(d.inc, 1);
+  if (d.dec) return addItem(d.dec, -1);
+  if (d.del) { delete cart[d.del]; save(); return refresh(); }
+  if (d.chip) { filter = d.chip; limit = 60; renderTiers(); return renderGames(); }
+});
+$("#q").addEventListener("input", e => { query = e.target.value.trim().toLowerCase(); limit = 60; renderGames(); });
+$("#more").onclick = () => { limit += 60; renderGames(); };
+$("#checkout").onclick = checkout;
+$("#barGo").onclick = () => { show("order"); $("#cartPanel").scrollIntoView({ behavior: "smooth" }); };
+document.addEventListener("change", e => { if (e.target.id === "rPlat") fillTier(); });
+document.addEventListener("click", e => { if (e.target.id === "rAdd") addRequest(); });
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (["service","games","order"].includes(h)) show(h); });
+
+/* ====================== MULAI ====================== */
+renderService(); renderTiers(); renderGames(); renderCatalog();
+const h0 = location.hash.slice(1);
+show(["service","games","order"].includes(h0) ? h0 : "service");
+</script>
+</body>
+</html>
