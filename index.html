@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="logo.png" type="image/png">
 <title>Rexel Game Cianjur - Service, Game PS4 & Order</title>
 <meta name="description" content="Daftar harga service stik, list game PS4, dan order online Rexel Game Joglo, Cianjur.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,13 +27,28 @@ button{font:inherit;color:inherit;cursor:pointer}
 .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
 
 /* header */
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 10px}
-.brand{display:flex;flex-direction:column;line-height:1}
+.top{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:18px 0 10px}
+.hero{text-align:center;min-width:0}
+.hero b{display:block;font:700 clamp(22px,3.4vw,36px)/1.1 var(--head);letter-spacing:.08em}
+.hero b i{font-style:normal;color:var(--pink)}
+.hero span{display:block;margin-top:8px;font:600 clamp(12px,1.5vw,15px)/1.4 var(--head);letter-spacing:.18em;color:var(--green)}
+@media(max-width:860px){.top{grid-template-columns:1fr auto}.hero{grid-column:1/-1;order:3;padding-top:2px}}
+.brand{display:flex;line-height:0}
+.brand img{height:88px;width:auto;display:block;mix-blend-mode:screen}
 .logo{font:700 28px/1 var(--head);letter-spacing:.06em}
 .logo i{font-style:normal;color:var(--pink)}
 .brand small{color:var(--muted);margin-top:6px;font-size:13px}
 .contact{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.contact a{color:var(--text);text-decoration:none;font-size:14px;border:1px solid var(--line);padding:7px 12px;border-radius:999px;background:var(--surface)}
+.contact a{display:inline-flex;align-items:center;gap:8px;color:var(--text);text-decoration:none;font-size:14px;border:1px solid var(--line);padding:7px 14px 7px 10px;border-radius:999px;background:var(--surface)}
+.contact svg{width:20px;height:20px;flex:none}
+.contact .wa svg{color:#25d366}
+.contact .ig svg{color:#ff4f93}
+.addr{display:flex;align-items:flex-start;gap:12px;margin:2px 0 14px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);text-decoration:none;max-width:640px}
+.addr:hover{border-color:var(--pink)}
+.addr svg{width:22px;height:22px;flex:none;color:var(--pink);margin-top:2px}
+.addr span{font-size:14px;line-height:1.5}
+.addr em{display:block;font-style:normal;color:var(--muted)}
+.addr u{display:inline-block;margin-top:4px;color:var(--green);font-weight:700;text-decoration:none}
 .contact a:hover{border-color:var(--pink)}
 .tagline{margin:6px 0 18px;color:var(--muted);max-width:52ch}
 
@@ -152,7 +168,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 .code{font:600 14px var(--head);color:var(--muted);text-align:center}
 
 @media(max-width:560px){
-  .logo{font-size:22px}
+  .brand img{height:78px}
   .tab{font-size:14px;padding:10px 6px}
   .two{grid-template-columns:1fr}
 }
@@ -163,14 +179,23 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <div class="wrap">
   <div class="top">
     <div class="brand">
-      <div class="logo">REXEL <i>GAME</i></div>
-      <small>Joglo, Cianjur</small>
+      <img src="logo-header.png" alt="Rexel Game - Joglo, Cianjur" width="387" height="231">
+    </div>
+    <div class="hero">
+      <b>REXEL GAME <i>CIANJUR</i></b>
+      <span>PLAYSTATIONS 1, 2, 3, 4 dan 5</span>
     </div>
     <div class="contact">
-      <a href="https://wa.me/6285172447090" target="_blank" rel="noopener">WhatsApp 0851-7244-7090</a>
-      <a href="https://instagram.com/RexelGame_" target="_blank" rel="noopener">@RexelGame_</a>
+      <a class="wa" href="https://wa.me/6285172447090" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>0851-7244-7090</span></a>
+      <a class="ig" href="https://instagram.com/RexelGame_" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg><span>@RexelGame_</span></a>
     </div>
   </div>
+  <a class="addr" href="https://www.google.com/maps/place/TOKO+REXEL+GAMES/@-6.8261688,107.1311385,17z/data=!3m1!4b1!4m6!3m5!1s0x2e6852599ff407a1:0xe3cffd006ded7662!8m2!3d-6.8261741!4d107.1337134!16s%2Fg%2F11f_1x4_35?entry=ttu&amp;g_ep=EgoyMDI2MTExOC4xIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" aria-label="Buka alamat Rexel Game di Google Maps">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    <span>Jl. Pangeran Hidayatullah No.26A, Sawah Gede, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43212
+      <em>(Patokan depan Alfamart Joglo dan Samping Depdoo)</em>
+      <u>Buka di Google Maps</u></span>
+  </a>
   <p class="tagline">Service stik, isi game PS2 / PS3 / PS4, stik dan aksesoris. Pilih yang kamu mau, pesan, lalu bayar dengan QRIS atau di toko.</p>
 
   <nav class="tabs" role="tablist" aria-label="Menu">
@@ -268,6 +293,7 @@ const SERVICES = [
   { con: "PS4", items: [["karet","Ganti karet (1 set)",20000],["topi","Ganti topi analog",10000],["analog","Ganti analog",50000],["pcb","Ganti PCB",50000],["baterai","Ganti baterai",80000]] }
 ];
 const PRODUCTS = [
+  { cat: "Konsol", items: [["ps3-slim-500gb","PS3 New Refurbish Slim 500GB (garansi 4 bulan)",2500000],["ps4-slim-hen-1tb","PS4 New Refurbish Slim Hen 1TB (garansi 4 bulan)",4500000]] },
   { cat: "Stik", items: [["stik-ps2-hitam","Stik PS2 hitam",40000],["stik-ps2-warna","Stik PS2 warna",80000],["stik-ps3-hitam","Stik PS3 hitam",70000],["stik-ps3-warna","Stik PS3 warna",80000],["stik-ps3-motif","Stik PS3 motif",100000],["stik-ps4-hitam","Stik PS4 hitam",150000],["stik-ps4-warna","Stik PS4 warna",170000],["stik-ps4-motif","Stik PS4 motif",200000]] },
   { cat: "Aksesoris", items: [["hdmi","HDMI",25000],["kabel-av","Kabel AV",20000],["kabel-ac","Kabel AC",20000],["kabel-ac-ori","Kabel AC ori",30000],["casan-ps3","Casan PS3 ori",25000],["conv-hdmi","Converter HDMI",50000],["conv-stik","Converter stik",40000],["mem-8","Memori 8MB",50000],["mem-16","Memori 16MB",70000],["casan-ps4","Casan PS4 ori",25000]] }
 ];
