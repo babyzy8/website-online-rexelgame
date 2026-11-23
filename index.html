@@ -170,6 +170,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 @media(max-width:560px){
   .brand img{height:78px}
   .tab{font-size:14px;padding:10px 6px}
+  .tab .lg{display:none}
   .two{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -200,7 +201,8 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 
   <nav class="tabs" role="tablist" aria-label="Menu">
     <button class="tab" role="tab" data-tab="service" aria-selected="true">Service</button>
-    <button class="tab" role="tab" data-tab="games" aria-selected="false">List Game PS4</button>
+    <button class="tab" role="tab" data-tab="games" aria-selected="false"><span class="lg">List Game&nbsp;</span>PS4</button>
+    <button class="tab" role="tab" data-tab="games3" aria-selected="false"><span class="lg">List Game&nbsp;</span>PS3</button>
     <button class="tab" role="tab" data-tab="order" aria-selected="false">Order <span class="dot" id="tabDot">0</span></button>
   </nav>
 
@@ -224,6 +226,20 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
     <p class="count" id="gCount"></p>
     <div class="grid" id="gGrid"></div>
     <button class="btn ghost more" id="more" hidden>Tampilkan lebih banyak</button>
+  </section>
+
+  <!-- GAMES PS3 -->
+  <section class="view" id="v-games3">
+    <h2>List Game PS3</h2>
+    <p class="sub">Harga mengikuti ukuran game. Cari nama game, lalu tap Tambah.</p>
+    <div class="tiers" id="tiers3"></div>
+    <div class="tools">
+      <input class="search" id="q3" type="search" placeholder="Cari nama game..." aria-label="Cari game PS3">
+      <div class="chips" id="chips3"></div>
+    </div>
+    <p class="count" id="gCount3"></p>
+    <div class="grid" id="gGrid3"></div>
+    <button class="btn ghost more" id="more3" hidden>Tampilkan lebih banyak</button>
   </section>
 
   <!-- ORDER -->
@@ -272,6 +288,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
 
 <script src="games.js"></script>
+<script src="games-ps3.js"></script>
 <script>
 /* ====================== PENGATURAN TOKO ====================== */
 const WA_NUMBER = "6285172447090";           // nomor WhatsApp admin (format 62...)
@@ -281,10 +298,10 @@ const QRIS_STATIC = "00020101021126690021ID.CO.BANKMANDIRI.WWW011893600008020252
 const PROMO = { tier: "sedang", per: 4, price: 100000 }; // 4 game sedang = 100K
 
 const TIERS = {
-  kecil:   { label: "Kecil",   range: "1-5 GB",    ps3: 10000, ps4: 20000 },
-  sedang:  { label: "Sedang",  range: "5-50 GB",   ps3: 15000, ps4: 30000 },
-  besar:   { label: "Besar",   range: "50-200 GB", ps3: 20000, ps4: 50000 },
-  terbaru: { label: "Bola Terupdate", range: "versi terbaru", ps3: 35000, ps4: 80000 },
+  kecil:   { label: "Kecil",   range: "1-5 GB",    range3: "1-5 GB",   ps3: 10000, ps4: 20000 },
+  sedang:  { label: "Sedang",  range: "5-50 GB",   range3: "5-20 GB",  ps3: 15000, ps4: 30000 },
+  besar:   { label: "Besar",   range: "50-200 GB", range3: "20-40 GB", ps3: 20000, ps4: 50000 },
+  terbaru: { label: "Bola Terupdate", range: "versi terbaru", range3: "versi terbaru", ps3: 35000, ps4: 80000 },
   ps2:     { label: "PS2 di PS4", range: "game PS2 yang bisa dimainkan di PS4", ps4: 20000, only: "ps4" }
 };
 const SERVICES = [
@@ -327,6 +344,12 @@ const GAME_LIST = (typeof GAMES !== "undefined" ? GAMES : []).map(g => {
   const t = tierOf(g), id = "g4-" + slug(g.n);
   ITEMS[id] = { id, name: (t === "ps2" ? "Game PS2 di PS4: " : "Game PS4: ") + g.n, price: TIERS[t].ps4, tier: t, ps4: true };
   return { ...g, id, tier: t, price: TIERS[t].ps4 };
+});
+
+const GAME_LIST3 = (typeof GAMES_PS3 !== "undefined" ? GAMES_PS3 : []).map(g => {
+  const t = TIERS[g.t] && !TIERS[g.t].only ? g.t : "sedang", id = "g3-" + slug(g.n);
+  ITEMS[id] = { id, name: "Game PS3: " + g.n, price: TIERS[t].ps3, tier: t, ps4: false };
+  return { ...g, id, tier: t, price: TIERS[t].ps3 };
 });
 
 function ctl(id){
@@ -389,6 +412,30 @@ function renderGames(){
   $("#more").hidden = list.length <= limit;
 }
 
+/* ====================== RENDER: GAME PS3 ====================== */
+let filter3 = "semua", query3 = "", limit3 = 60;
+function renderTiers3(){
+  $("#tiers3").innerHTML = ["kecil","sedang","besar","terbaru"].map(k => { const t = TIERS[k];
+    return `<div class="tier"><span>${t.label} (${t.range3})</span><b>${rp(t.ps3)}</b></div>`; }).join("");
+  const opts = [["semua","Semua"],["kecil","Kecil"],["sedang","Sedang"],["besar","Besar"],["terbaru","Terbaru"]];
+  $("#chips3").innerHTML = opts.map(([k,l]) => `<button class="chip" data-chip3="${k}" aria-pressed="${k===filter3}">${l}</button>`).join("");
+}
+function renderGames3(){
+  const list = GAME_LIST3.filter(g => (filter3 === "semua" || g.tier === filter3) && g.n.toLowerCase().includes(query3));
+  $("#gCount3").textContent = `${list.length} game`;
+  const shown = list.slice(0, limit3);
+  $("#gGrid3").innerHTML = shown.length ? shown.map(g => {
+    const src = g.img || `ps3-${slug(g.n)}.jpg`;
+    return `<article class="card">
+      <div class="cover">${placeholder(g.n)}<img loading="lazy" alt="Cover ${esc(g.n)}" src="${esc(src)}" onerror="this.style.display='none'">
+        <span class="badge ${g.tier==="terbaru"?"new":""}">${TIERS[g.tier].label}</span></div>
+      <div class="info"><h4>${esc(g.n)}</h4>
+        <div class="meta"><span>${g.gb ? g.gb + " GB" : TIERS[g.tier].range3}</span><span class="price">${rp(g.price)}</span></div>
+        <div class="act" data-ctl="${g.id}">${ctl(g.id)}</div></div></article>`;
+  }).join("") : `<div class="empty" style="grid-column:1/-1">Game tidak ditemukan. Coba kata kunci lain, atau request lewat menu Order.</div>`;
+  $("#more3").hidden = list.length <= limit3;
+}
+
 /* ====================== RENDER: ORDER ====================== */
 function renderCatalog(){
   const cats = PRODUCTS.map(c => `<div class="cat"><h3>${c.cat}</h3><div class="rows">
@@ -406,7 +453,7 @@ function renderCatalog(){
       </div>
       <div><label for="rName">Nama game</label><input type="text" id="rName" placeholder="Contoh: Naruto Ultimate Ninja 5"></div>
       <button class="btn" id="rAdd">Tambah ke pesanan</button>
-      <small style="color:var(--muted)">PS4: game yang ada di menu List Game PS4 bisa dipesan langsung dari sana. PS2 khusus hardisk eksternal atau flashdisk yang penuh wajib diformat.</small>
+      <small style="color:var(--muted)">PS3 dan PS4: game yang ada di menu List Game bisa dipesan langsung dari sana. PS2 khusus hardisk eksternal atau flashdisk yang penuh wajib diformat.</small>
     </div></div>`;
   $("#catalog").innerHTML = req + cats + svc;
   fillTier();
@@ -414,7 +461,7 @@ function renderCatalog(){
 function fillTier(){
   const p = $("#rPlat").value, sel = $("#rTier");
   if (p === "ps2") sel.innerHTML = `<option value="semua">Semua game - ${rp(3000)}/game</option>`;
-  else sel.innerHTML = Object.entries(TIERS).filter(([k,t]) => !t.only || t.only === p).map(([k,t]) => `<option value="${k}">${t.label} (${t.range}) - ${rp(t[p])}</option>`).join("");
+  else sel.innerHTML = Object.entries(TIERS).filter(([k,t]) => !t.only || t.only === p).map(([k,t]) => `<option value="${k}">${t.label} (${p === "ps3" && t.range3 ? t.range3 : t.range}) - ${rp(t[p])}</option>`).join("");
 }
 function addRequest(){
   const p = $("#rPlat").value, t = $("#rTier").value, name = $("#rName").value.trim();
@@ -556,19 +603,22 @@ document.addEventListener("click", e => {
   if (d.dec) return addItem(d.dec, -1);
   if (d.del) { delete cart[d.del]; save(); return refresh(); }
   if (d.chip) { filter = d.chip; limit = 60; renderTiers(); return renderGames(); }
+  if (d.chip3) { filter3 = d.chip3; limit3 = 60; renderTiers3(); return renderGames3(); }
 });
 $("#q").addEventListener("input", e => { query = e.target.value.trim().toLowerCase(); limit = 60; renderGames(); });
 $("#more").onclick = () => { limit += 60; renderGames(); };
+$("#q3").addEventListener("input", e => { query3 = e.target.value.trim().toLowerCase(); limit3 = 60; renderGames3(); });
+$("#more3").onclick = () => { limit3 += 60; renderGames3(); };
 $("#checkout").onclick = checkout;
 $("#barGo").onclick = () => { show("order"); $("#cartPanel").scrollIntoView({ behavior: "smooth" }); };
 document.addEventListener("change", e => { if (e.target.id === "rPlat") fillTier(); });
 document.addEventListener("click", e => { if (e.target.id === "rAdd") addRequest(); });
-window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (["service","games","order"].includes(h)) show(h); });
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (["service","games","games3","order"].includes(h)) show(h); });
 
 /* ====================== MULAI ====================== */
-renderService(); renderTiers(); renderGames(); renderCatalog();
+renderService(); renderTiers(); renderGames(); renderTiers3(); renderGames3(); renderCatalog();
 const h0 = location.hash.slice(1);
-show(["service","games","order"].includes(h0) ? h0 : "service");
+show(["service","games","games3","order"].includes(h0) ? h0 : "service");
 </script>
 </body>
 </html>
