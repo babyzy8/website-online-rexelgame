@@ -203,6 +203,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
     <button class="tab" role="tab" data-tab="service" aria-selected="true">Service</button>
     <button class="tab" role="tab" data-tab="games" aria-selected="false"><span class="lg">List Game&nbsp;</span>PS4</button>
     <button class="tab" role="tab" data-tab="games3" aria-selected="false"><span class="lg">List Game&nbsp;</span>PS3</button>
+    <button class="tab" role="tab" data-tab="games2" aria-selected="false"><span class="lg">List Game&nbsp;</span>PS2</button>
     <button class="tab" role="tab" data-tab="order" aria-selected="false">Order <span class="dot" id="tabDot">0</span></button>
   </nav>
 
@@ -240,6 +241,20 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
     <p class="count" id="gCount3"></p>
     <div class="grid" id="gGrid3"></div>
     <button class="btn ghost more" id="more3" hidden>Tampilkan lebih banyak</button>
+  </section>
+
+  <!-- GAMES PS2 -->
+  <section class="view" id="v-games2">
+    <h2>List Game PS2</h2>
+    <p class="sub">Semua game PS2 harganya sama. Cari nama game, lalu tap Tambah.</p>
+    <div class="tiers" id="tiers2"></div>
+    <div class="note"><b>Catatan:</b> Khusus hardisk eksternal atau flashdisk, apabila sudah penuh wajib diformat. Game tidak bisa dihapus satu per satu.</div>
+    <div class="tools" style="margin-top:14px">
+      <input class="search" id="q2" type="search" placeholder="Cari nama game..." aria-label="Cari game PS2">
+    </div>
+    <p class="count" id="gCount2"></p>
+    <div class="grid" id="gGrid2"></div>
+    <button class="btn ghost more" id="more2" hidden>Tampilkan lebih banyak</button>
   </section>
 
   <!-- ORDER -->
@@ -289,12 +304,14 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 
 <script src="games.js"></script>
 <script src="games-ps3.js"></script>
+<script src="games-ps2.js"></script>
 <script>
 /* ====================== PENGATURAN TOKO ====================== */
 const WA_NUMBER = "6285172447090";           // nomor WhatsApp admin (format 62...)
 const MERCHANT = "Rexel Games Toko Elektronik";
 // Isi QRIS statis milik toko (hasil baca dari QRIS yang dikirim)
 const QRIS_STATIC = "00020101021126690021ID.CO.BANKMANDIRI.WWW01189360000802025234230211720252342390303UMI51440014ID.CO.QRIS.WWW0215ID10264924100830303UMI5204573253033605802ID5925Rexel Games Toko Elektron6013Cianjur (Kab)61054321262070703A016304C8C9";
+const PS2_PRICE = 3000;                       // harga semua game PS2 (per game)
 const PROMO = { tier: "sedang", per: 4, price: 100000 }; // 4 game sedang = 100K
 
 const TIERS = {
@@ -350,6 +367,12 @@ const GAME_LIST3 = (typeof GAMES_PS3 !== "undefined" ? GAMES_PS3 : []).map(g => 
   const t = TIERS[g.t] && !TIERS[g.t].only ? g.t : "sedang", id = "g3-" + slug(g.n);
   ITEMS[id] = { id, name: "Game PS3: " + g.n, price: TIERS[t].ps3, tier: t, ps4: false };
   return { ...g, id, tier: t, price: TIERS[t].ps3 };
+});
+
+const GAME_LIST2 = (typeof GAMES_PS2 !== "undefined" ? GAMES_PS2 : []).map(g => {
+  const id = "g2-" + slug(g.n);
+  ITEMS[id] = { id, name: "Game PS2: " + g.n, price: PS2_PRICE, ps4: false };
+  return { ...g, id, price: PS2_PRICE };
 });
 
 function ctl(id){
@@ -436,6 +459,27 @@ function renderGames3(){
   $("#more3").hidden = list.length <= limit3;
 }
 
+/* ====================== RENDER: GAME PS2 ====================== */
+let query2 = "", limit2 = 60;
+function renderTiers2(){
+  $("#tiers2").innerHTML = `<div class="tier promo"><span>Semua game PS2</span><b>${rp(PS2_PRICE)} / game</b></div>`;
+}
+function renderGames2(){
+  const list = GAME_LIST2.filter(g => g.n.toLowerCase().includes(query2));
+  $("#gCount2").textContent = `${list.length} game`;
+  const shown = list.slice(0, limit2);
+  $("#gGrid2").innerHTML = shown.length ? shown.map(g => {
+    const src = g.img || `ps2-${slug(g.n)}.jpg`;
+    return `<article class="card">
+      <div class="cover">${placeholder(g.n)}<img loading="lazy" alt="Cover ${esc(g.n)}" src="${esc(src)}" onerror="this.style.display='none'">
+        <span class="badge">PS2</span></div>
+      <div class="info"><h4>${esc(g.n)}</h4>
+        <div class="meta"><span>Semua game</span><span class="price">${rp(g.price)}</span></div>
+        <div class="act" data-ctl="${g.id}">${ctl(g.id)}</div></div></article>`;
+  }).join("") : `<div class="empty" style="grid-column:1/-1">Game tidak ditemukan. Coba kata kunci lain, atau request lewat menu Order.</div>`;
+  $("#more2").hidden = list.length <= limit2;
+}
+
 /* ====================== RENDER: ORDER ====================== */
 function renderCatalog(){
   const cats = PRODUCTS.map(c => `<div class="cat"><h3>${c.cat}</h3><div class="rows">
@@ -485,7 +529,8 @@ function renderCart(){
   $("#cartTotals").innerHTML = items.length ? `
     <div class="tot"><span>Subtotal</span><span>${rp(T.sub)}</span></div>
     ${T.disc ? `<div class="tot disc"><span>Promo ${T.groups}x (${PROMO.per} game sedang = ${rp(PROMO.price)})</span><span>-${rp(T.disc)}</span></div>` : ""}
-    <div class="tot grand"><span>Total</span><span>${rp(T.total)}</span></div>` : "";
+    <div class="tot grand"><span>Total</span><span>${rp(T.total)}</span></div>
+    ${items.some(i => /^Game PS2:/.test(i.name)) ? `<div class="note">Game PS2: hardisk eksternal atau flashdisk yang sudah penuh wajib diformat, game tidak bisa dihapus satu per satu.</div>` : ""}` : "";
 }
 
 function refresh(){
@@ -535,6 +580,7 @@ function buildMessage(o){
     `*PESANAN REXEL GAME*`, `Kode: ${o.code}`, `Nama: ${o.name}`, o.wa ? `WhatsApp: ${o.wa}` : "",
     `Pembayaran: ${o.pay === "qris" ? "QRIS (bukti bayar saya lampirkan di chat ini)" : "Bayar di toko (cash)"}`,
     ``, lines, o.disc ? `Promo: -${rp(o.disc)}` : "", `*Total: ${rp(o.total)}*`,
+    o.items.some(i => /^Game PS2:/.test(i.name)) ? `\nCatatan PS2: hardisk eksternal/flashdisk yang penuh wajib diformat.` : "",
     o.note ? `\nCatatan: ${o.note}` : ""
   ].filter(l => l !== "").join("\n");
 }
@@ -609,16 +655,18 @@ $("#q").addEventListener("input", e => { query = e.target.value.trim().toLowerCa
 $("#more").onclick = () => { limit += 60; renderGames(); };
 $("#q3").addEventListener("input", e => { query3 = e.target.value.trim().toLowerCase(); limit3 = 60; renderGames3(); });
 $("#more3").onclick = () => { limit3 += 60; renderGames3(); };
+$("#q2").addEventListener("input", e => { query2 = e.target.value.trim().toLowerCase(); limit2 = 60; renderGames2(); });
+$("#more2").onclick = () => { limit2 += 60; renderGames2(); };
 $("#checkout").onclick = checkout;
 $("#barGo").onclick = () => { show("order"); $("#cartPanel").scrollIntoView({ behavior: "smooth" }); };
 document.addEventListener("change", e => { if (e.target.id === "rPlat") fillTier(); });
 document.addEventListener("click", e => { if (e.target.id === "rAdd") addRequest(); });
-window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (["service","games","games3","order"].includes(h)) show(h); });
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (["service","games","games3","games2","order"].includes(h)) show(h); });
 
 /* ====================== MULAI ====================== */
-renderService(); renderTiers(); renderGames(); renderTiers3(); renderGames3(); renderCatalog();
+renderService(); renderTiers(); renderGames(); renderTiers3(); renderGames3(); renderTiers2(); renderGames2(); renderCatalog();
 const h0 = location.hash.slice(1);
-show(["service","games","games3","order"].includes(h0) ? h0 : "service");
+show(["service","games","games3","games2","order"].includes(h0) ? h0 : "service");
 </script>
 </body>
 </html>
